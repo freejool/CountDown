@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">CountDown</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="submit">submit</string>
+    <string name="select">select</string>
+    <string name="choose_date">choose date</string>
+    <string name="choose_time">choose time</string>
+    <string name="input_count_down_content">Reminder</string>
+    <string name="days_left">days left</string>
+    <string name="days_gone">days gone</string>
+    <string name="alert">alert</string>
+    <string name="min">min</string>
+    <string name="secs_left">secs left</string>
+    <string name="mins_left">mins left</string>
+    <string name="delete">delete</string>
+</resources>
