@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -55,7 +57,6 @@ public class DashboardFragment extends Fragment {
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-
         AppDatabase db = AppDatabase.getInstance(getContext());
         CountDownDAO dao = db.countDownDAO();
 
@@ -66,9 +67,7 @@ public class DashboardFragment extends Fragment {
 
         DatePicker datePicker = binding.datePicker;
         TimePicker timePicker = binding.timePicker;
-        Spinner chooseMusic = binding.chooseMusicSpinner;
-        ArrayAdapter<CharSequence> chooseMusicAdapter = ArrayAdapter.createFromResource(getContext(), R.array.choose_music, android.R.layout.simple_spinner_dropdown_item);
-        chooseMusic.setAdapter(chooseMusicAdapter);
+        CheckBox chooseMusic = binding.chooseMusicCheckbox;
 
         TextView musicTitle = binding.musicTitle;
 
@@ -80,34 +79,39 @@ public class DashboardFragment extends Fragment {
             }
 
         });
-        chooseMusic.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0: {
-                        selectMusic = null;
-                        musicTitle.setText("");
-                        break;
-                    }
-                    case 1: {
-                        fileExplorer.launch("audio/*");
-                        break;
-                    }
-                }
-            }
 
+        chooseMusic.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    fileExplorer.launch("audio/*");
+                } else {
+                    musicTitle.setText("");
+                }
             }
         });
 
         CheckBox alertCheckbox = binding.alertCheckbox;
         EditText alertText = binding.alertText;
+        alertText.setEnabled(false);
+        chooseMusic.setEnabled(false);
+
+        alertCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    alertText.setEnabled(true);
+                    chooseMusic.setEnabled(true);
+                } else {
+                    alertText.setEnabled(false);
+                    chooseMusic.setEnabled(false);
+                }
+            }
+        });
 
 
         Button buttonSubmit = binding.buttonSubmit;
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 int alertBeforeMinutes;
@@ -139,7 +143,7 @@ public class DashboardFragment extends Fragment {
                         alertBeforeMinutes,
                         selectMusic == null ? "" : selectMusic.toString());
                 dao.insertOne(record);
-                record=dao.findByEndTime(record.endTime);
+                record = dao.findByEndTime(record.endTime);
                 if (LocalDateTime.parse(record.endTime).minusMinutes(record.alertBeforeMinutes).isAfter(LocalDateTime.now())) {
                     AlertTimer newAT = new AlertTimer(record, getContext());
                     ((MainActivity) getActivity()).getAlertTimers().add(newAT);
@@ -148,6 +152,8 @@ public class DashboardFragment extends Fragment {
                                     .minusMinutes(record.alertBeforeMinutes).atZone(ZoneId.systemDefault()).toInstant()));
                 }
                 Toast.makeText(getContext(), "Success", Toast.LENGTH_LONG).show();
+                chooseMusic.setChecked(false);
+                alertCheckbox.setChecked(false);
             }
         });
 

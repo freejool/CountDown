@@ -65,13 +65,15 @@
                     android:layout_marginStart="8dp"
                     android:hint="@string/min" />
 
-                <Spinner
-                    android:id="@+id/choose_music_spinner"
-                    android:layout_width="150dp"
-                    android:layout_height="match_parent" />
+                <CheckBox
+                    android:id="@+id/choose_music_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="music"/>
                 <TextView
                     android:id="@+id/music_title"
-                    android:layout_width="100dp"
+                    android:layout_width="140dp"
+                    android:layout_marginHorizontal="8dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"/>
             </LinearLayout>
