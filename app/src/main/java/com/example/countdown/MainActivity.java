@@ -61,10 +61,16 @@ public class MainActivity extends AppCompatActivity {
         LocalDateTime now = LocalDateTime.now();
         alert = new Timer();
         for (CountDownRecord record : recordList) {
-            if (LocalDateTime.parse(record.endTime).isAfter(now)) {
+            if (LocalDateTime.parse(record.endTime).minusMinutes(record.alertBeforeMinutes).isAfter(now) &&
+                    record.alertBeforeMinutes >= 0) {
                 alert.schedule(new AlertTimer(record, getApplicationContext()),
-                        Date.from(LocalDateTime.parse(record.endTime).atZone(ZoneId.systemDefault()).toInstant()));
+                        Date.from(LocalDateTime.parse(record.endTime)
+                                .minusMinutes(record.alertBeforeMinutes).atZone(ZoneId.systemDefault()).toInstant()));
             }
         }
+    }
+
+    public Timer getAlert() {
+        return alert;
     }
 }

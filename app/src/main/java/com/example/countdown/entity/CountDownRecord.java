@@ -19,17 +19,22 @@ public class CountDownRecord {
     @ColumnInfo(name = "alert_before_minutes")
     public int alertBeforeMinutes;
 
-    public CountDownRecord(int uid, String endTime, String content, int alertBeforeMinutes) {
+    @ColumnInfo(name = "alert_music")
+    public String alertMusic;
+
+    public CountDownRecord(int uid, String endTime, String content, int alertBeforeMinutes, String alertMusic) {
         this.uid = uid;
         this.endTime = endTime;
         this.content = content;
         this.alertBeforeMinutes = alertBeforeMinutes;
+        this.alertMusic = alertMusic;
     }
 
-    public CountDownRecord(LocalDateTime endTime, String content, int alertBeforeMinutes) {
+    public CountDownRecord(LocalDateTime endTime, String content, int alertBeforeMinutes, String alertMusic) {
         this.endTime = endTime.toString();
         this.content = content;
         this.alertBeforeMinutes = alertBeforeMinutes;
+        this.alertMusic = alertMusic;
     }
 
     @Override
@@ -38,7 +43,8 @@ public class CountDownRecord {
                 "uid=" + uid +
                 ", endTime='" + endTime + '\'' +
                 ", content='" + content + '\'' +
-                ", alertBeforeMinutes='" + alertBeforeMinutes + '\'' +
+                ", alertBeforeMinutes=" + alertBeforeMinutes +
+                ", alertMusic='" + alertMusic + '\'' +
                 '}';
     }
 }

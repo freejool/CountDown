@@ -50,7 +50,9 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 CountDownRecord rec = (CountDownRecord) parent.getItemAtPosition(position);
-                Toast.makeText(getContext(), rec.endTime, Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(),
+                        rec.endTime + (rec.alertBeforeMinutes == -1 ? "" : "\nalert " + rec.alertBeforeMinutes + " mins before"),
+                        Toast.LENGTH_LONG).show();
             }
         });
         recordContainer.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -58,7 +60,7 @@ public class HomeFragment extends Fragment {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 PopupMenu popupMenu = new PopupMenu(getContext(), view);
                 popupMenu.getMenuInflater().inflate(R.menu.main_delete_menu, popupMenu.getMenu());
-                Log.i("view","longclick");
+                Log.i("view", "longClick");
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {

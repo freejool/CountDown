@@ -5,8 +5,8 @@
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.3041025641025641" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.24563395182291667" />
-        <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.24548736462093862" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.10177917480468751" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.29398040771484374" />
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.1" />
         <entry key="app/src/main/res/layout/single_countdown.xml" value="0.35073547363281243" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.27556762695312503" />
@@ -19,5 +19,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.29398040771484374" />
+      </ProjectState>
+    </option>
   </component>
 </project>
