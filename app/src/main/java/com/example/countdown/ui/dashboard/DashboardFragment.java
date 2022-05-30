@@ -1,10 +1,10 @@
 package com.example.countdown.ui.dashboard;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.format.Time;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +14,11 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
@@ -40,9 +38,6 @@ import com.example.countdown.tools.CountDownDAO;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
 
 public class DashboardFragment extends Fragment {
 
@@ -83,10 +78,9 @@ public class DashboardFragment extends Fragment {
                 selectMusic = result;
                 musicTitle.setText(selectMusic.getLastPathSegment().replaceFirst("^.+/", ""));
             }
-        });
-        chooseMusic.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
-            
+        });
+        chooseMusic.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
@@ -145,8 +139,11 @@ public class DashboardFragment extends Fragment {
                         alertBeforeMinutes,
                         selectMusic == null ? "" : selectMusic.toString());
                 dao.insertOne(record);
+                record=dao.findByEndTime(record.endTime);
                 if (LocalDateTime.parse(record.endTime).minusMinutes(record.alertBeforeMinutes).isAfter(LocalDateTime.now())) {
-                    ((MainActivity) getActivity()).getAlert().schedule(new AlertTimer(record, getContext()),
+                    AlertTimer newAT = new AlertTimer(record, getContext());
+                    ((MainActivity) getActivity()).getAlertTimers().add(newAT);
+                    ((MainActivity) getActivity()).getScheduleTimer().schedule(newAT,
                             Date.from(LocalDateTime.parse(record.endTime)
                                     .minusMinutes(record.alertBeforeMinutes).atZone(ZoneId.systemDefault()).toInstant()));
                 }

@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private Timer alert;
+    private List<AlertTimer> timers=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,14 +65,29 @@ public class MainActivity extends AppCompatActivity {
         for (CountDownRecord record : recordList) {
             if (LocalDateTime.parse(record.endTime).minusMinutes(record.alertBeforeMinutes).isAfter(now) &&
                     record.alertBeforeMinutes >= 0) {
-                alert.schedule(new AlertTimer(record, getApplicationContext()),
-                        Date.from(LocalDateTime.parse(record.endTime)
-                                .minusMinutes(record.alertBeforeMinutes).atZone(ZoneId.systemDefault()).toInstant()));
+                AlertTimer newAlertTimer = new AlertTimer(record, getApplicationContext());
+                timers.add(newAlertTimer);
+                alert.schedule(newAlertTimer,
+                        Date.from(LocalDateTime.parse(newAlertTimer.getRecord().endTime)
+                                .minusMinutes(newAlertTimer.getRecord().alertBeforeMinutes)
+                                .atZone(ZoneId.systemDefault()).toInstant()));
             }
         }
     }
 
-    public Timer getAlert() {
+    public List<AlertTimer> getAlertTimers() {
+        return timers;
+    }
+
+    public Timer getScheduleTimer() {
         return alert;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        for (AlertTimer at: timers){
+            at.destroy();
+        }
     }
 }

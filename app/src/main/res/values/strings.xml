@@ -15,6 +15,7 @@
     <string name="secs_left">secs left</string>
     <string name="mins_left">mins left</string>
     <string name="delete">delete</string>
+    <string name="stop">stop</string>
     <string-array name="choose_music">
         <item>no music</item>
         <item>custom…</item>

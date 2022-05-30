@@ -20,6 +20,8 @@ public interface CountDownDAO {
     @Query("select * from countdownrecord where content like :content order by end_time desc")
     List<CountDownRecord> findByContent(String content);
 
+    @Query("select * from countdownrecord where end_time = :endTime")
+    CountDownRecord findByEndTime(String endTime);
 //
 //    @Delete
 //    void delete(User user);

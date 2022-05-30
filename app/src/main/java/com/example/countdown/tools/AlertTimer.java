@@ -14,6 +14,7 @@ import java.util.TimerTask;
 public class AlertTimer extends TimerTask {
     private CountDownRecord record;
     private Context context;
+    MediaPlayer mediaPlayer;
 
     public AlertTimer(CountDownRecord record, Context context) {
         this.record = record;
@@ -23,7 +24,7 @@ public class AlertTimer extends TimerTask {
     @Override
     public void run() {
         if (!record.alertMusic.equals("")) {
-            MediaPlayer mediaPlayer = new MediaPlayer();
+            mediaPlayer = new MediaPlayer();
             try {
                 mediaPlayer.setDataSource(this.context, Uri.parse(record.alertMusic));
                 mediaPlayer.prepare();
@@ -35,4 +36,17 @@ public class AlertTimer extends TimerTask {
         }
     }
 
+    public void stopMusic() {
+        mediaPlayer.stop();
+        mediaPlayer.release();
+    }
+
+    public CountDownRecord getRecord() {
+        return record;
+    }
+
+    public  void destroy(){
+        mediaPlayer.stop();
+        mediaPlayer.release();
+    }
 }
