@@ -58,7 +58,7 @@ public class CountDownRecordAdapter extends ArrayAdapter<CountDownRecord> {
         }
         else {
             Long deltaDay=ChronoUnit.DAYS.between(target, LocalDateTime.now());
-            days_left.setText(R.string.days_gone);
+            days_left.setText(R.string.days_passed);
             days.setText(String.valueOf(deltaDay));
         }
 

@@ -9,7 +9,7 @@
     <string name="choose_time">choose time</string>
     <string name="input_count_down_content">Reminder</string>
     <string name="days_left">days left</string>
-    <string name="days_gone">days gone</string>
+    <string name="days_passed">days passed</string>
     <string name="alert">alert</string>
     <string name="min">min</string>
     <string name="secs_left">secs left</string>
